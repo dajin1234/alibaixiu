@@ -19,4 +19,28 @@ $('#userForm').on('submit', function() {
         //console.log(formData);
         //阻止表单的默认提交行为
     return false;
+});
+//实现图片上传功能
+//当用户选择文件的时候
+$('#avatar').on('change', function() {
+    //this.files[0]
+    //用户选择到的文件
+    //console.log(this.files[0]);
+    var formData = new FormData();
+    formData.append('avatar', this.files[0]);
+    $.ajax({
+        type: 'post',
+        url: '/upload',
+        data: formData,
+        //告诉$.ajax方法不要解析请求参数
+        processData: false,
+        //告诉$.ajax方法不要设置请求参数的类型
+        contentType: false,
+        success: function(response) {
+            //  console.log(response);
+            $('#preview').attr('src', response[0].avatar);
+            $('#hiddenAvatar').val(response[0].avatar);
+        }
+    })
+
 })
